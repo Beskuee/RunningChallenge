@@ -1,0 +1,18 @@
+{
+  "name": "runningchallenge",
+  "version": "1.0.0",
+  "description": "running challenge theodo",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "vdu",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.23.0",
+    "mongoose": "^5.3.12",
+    "nodemon": "^1.19.1"
+  }
+}
