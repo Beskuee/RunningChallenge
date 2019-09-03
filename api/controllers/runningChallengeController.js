@@ -2,54 +2,65 @@
 const _ = require('lodash');
 
 var mongoose = require('mongoose'),
-Task = mongoose.model('Tasks');
+    Running = mongoose.model('Runnings');
 
+// convert to json object of interest
+function runningJsonConverter(running) {
+    return _.pick(running,
+        'numberCaloriesBurnt',
+        'numberKmRan',
+        'name',
+        'startDate',
+        'stopDate')
+    ;
+}
 
-exports.list_all_tasks = function (req, res) {
-    Task.find({}, function (err, task) {
+// findAll
+exports.listAllRunnings = function (req, res) {
+    Running.find({}, function (err, running) {
         if (err) {
-            res.send();
+            res.send(err);
+            return;
         }
-        res.json(task);
+
+        const dataTosend = _.map(running, (obj)=> runningJsonConverter(obj));
+
+        return res.json(dataTosend);
     });
 };
 
-exports.create_a_task = function (req, res) {
-    var new_task = new Task(req.body);
-    new_task.save(function (err, task) {
+// create
+exports.createARunning = function (req, res) {
+    var new_running = new Running(req.body);
+    new_running.save(function (err, running) {
         if (err) {
             res.send(err);
         }
-        res.json(task);
+
+        const dataTosend = runningJsonConverter(running);
+
+        return res.json(dataTosend);
+
     });
 };
 
+// get average
 exports.getAverageKmRanByDate = function (req, res) {
-    //faire un _.get avec loadash
     const startDate = new Date(req.body.startDate);
     const stopDate = new Date(req.body.stopDate);
 
-    Task.find({ startDate: { '$gte': startDate }} && {stopDate : {'$lte': stopDate}}, function (err, task) {
+    Running.find({$and: [{startDate: { '$gte': startDate }}, {stopDate : {'$lte': stopDate}}]}, function (err, running) {
         if (err) {
             res.send(err);
+            return;
         }
-        let listKm = [];
-        _.map(task, (obj)=>{
-            listKm.push(_.get(obj, 'numberKmRan'))
-        });
 
-        let listCalorie = [];
-        _.map(task, (obj)=>{
-            listCalorie.push(_.get(obj, 'numberCaloriesBurnt'))
-        })
-
-
-        console.log('---listKm---', listKm);
-        console.log('---listCalorie---', listCalorie);
+        const kmRanList = _.map(running, (obj)=> _.get(obj, 'numberKmRan'));
+        const calorieBurntList = _.map(running, (obj)=> _.get(obj, 'numberCaloriesBurnt'));
 
         res.json({
-            km_mean : _.mean(listKm),
-            calorie_mean : _.mean(listCalorie),
+            km_mean : _.mean(kmRanList),
+            calorie_mean : _.mean(calorieBurntList),
         });
     });
 

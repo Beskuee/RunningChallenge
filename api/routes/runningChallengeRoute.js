@@ -1,17 +1,17 @@
 'use strict';
 module.exports = function (app) {
-    var todoList = require('../controllers/runningChallengeController')
+    var running = require('../controllers/runningChallengeController')
 
     //todoListRoutes
-    app.route('/tasks')
-        .get(todoList.list_all_tasks)
-        .post(todoList.create_a_task);
+    app.route('/runnings')
+        .get(running.listAllRunnings)
+        .post(running.createARunning);
 
     app.route('/average_km_ran')
-        .post(todoList.getAverageKmRanByDate);
+        .post(running.getAverageKmRanByDate);
 
-    // app.route('./tasks/:taskId')
-    //     .get(todoList.read_a_task)
-    //     .put(todoList.update_a_task)
-    //     .delete(todoList.delete_a_task)
+    // app.route('./runnings/:runningId')
+    //     .get(running.read_a_task)
+    //     .put(running.update_a_task)
+    //     .delete(running.delete_a_task)
 };
