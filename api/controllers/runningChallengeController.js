@@ -7,9 +7,9 @@ var mongoose = require('mongoose'),
 // convert to json object of interest
 function runningJsonConverter(running) {
     return _.pick(running,
-        'numberCaloriesBurnt',
-        'numberKmRan',
         'name',
+        'numberKmRan',
+        'numberCaloriesBurnt',
         'startDate',
         'stopDate')
     ;
