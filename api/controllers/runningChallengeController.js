@@ -1,6 +1,8 @@
 'use strict';
 const _ = require('lodash');
-let Run = require('../models/runModel');
+const Run = require('../models/runModel');
+const logger = require('../../logger/logger');
+
 
 var mongoose = require('mongoose'),
     Running = mongoose.model('Running');
@@ -14,7 +16,7 @@ exports.listAllRunnings = function (req, res) {
         }
 
         const dataTosend = _.map(running, (obj)=> new Run(obj));
-
+        logger.info('--------dataToSend-----------');
         return res.status(200).json(dataTosend);
     });
 };
