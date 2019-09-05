@@ -1,3 +1,4 @@
+const logger = require('./logger/logger');
 var express = require('express'),
     app = express(),
     Promise = require('bluebird'),
@@ -6,13 +7,16 @@ var express = require('express'),
     Running = require('./api/models/runningChallengeModel'),
     bodyParser = require('body-parser');
 
+
 //mongoose instance connection url connection
 mongoose.Promise = Promise;
 mongoose.connect('mongodb://localhost/Runnings')
     .then(() => {
-        Promise.resolve(console.log('Connected on port: ', port));
+        logger.info(`Connected on port: ${port}`);
+        Promise.resolve();
     })
     .catch((err) => {
+        logger.info('Not connected: ', err.message);
         Promise.reject(console.log('Not connected: ', err.message));
     })
 
