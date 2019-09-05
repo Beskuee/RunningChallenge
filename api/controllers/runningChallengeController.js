@@ -1,46 +1,34 @@
 'use strict';
 const _ = require('lodash');
+let Run = require('../models/runModel');
 
 var mongoose = require('mongoose'),
-    Running = mongoose.model('Runnings');
-
-// convert to json object of interest
-function runningJsonConverter(running) {
-    return _.pick(running,
-        'name',
-        'numberKmRan',
-        'numberCaloriesBurnt',
-        'startDate',
-        'stopDate')
-    ;
-}
+    Running = mongoose.model('Running');
 
 // findAll
 exports.listAllRunnings = function (req, res) {
     Running.find({}, function (err, running) {
         if (err) {
-            res.send(err);
+            res.status(400).send(err);
             return;
         }
 
-        const dataTosend = _.map(running, (obj)=> runningJsonConverter(obj));
+        const dataTosend = _.map(running, (obj)=> new Run(obj));
 
-        return res.json(dataTosend);
+        return res.status(200).json(dataTosend);
     });
 };
 
 // create
 exports.createARunning = function (req, res) {
-    var new_running = new Running(req.body);
-    new_running.save(function (err, running) {
+    var running = new Running(req.body);
+    running.save(function (err, running) {
         if (err) {
-            res.send(err);
+            res.status(400).send(err);
+            return;
         }
 
-        const dataTosend = runningJsonConverter(running);
-
-        return res.json(dataTosend);
-
+        return res.status(200).json(new Run(running));
     });
 };
 
@@ -58,7 +46,7 @@ exports.getAverageKmRanByDate = function (req, res) {
         const kmRanList = _.map(running, (obj)=> _.get(obj, 'numberKmRan'));
         const calorieBurntList = _.map(running, (obj)=> _.get(obj, 'numberCaloriesBurnt'));
 
-        res.json({
+        res.status(200).json({
             km_mean : _.mean(kmRanList),
             calorie_mean : _.mean(calorieBurntList),
         });

@@ -25,4 +25,4 @@ var RunningSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Runnings', RunningSchema);
+module.exports = mongoose.model('Running', RunningSchema);
