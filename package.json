@@ -4,18 +4,43 @@
   "description": "running challenge theodo",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "start:dev": "nodemon server.js",
-    "test": "test"
+    "start": "node server/server.js",
+    "start:dev": "nodemon server/server.js",
+    "prod": "cross-env NODE_ENV=local-prod node dist/build/server/server.js",
+    "prebuild": "npm run clean",
+    "postbuild": "copy package*.json dist/build && copy config.json dist/build && copy run.bat dist/build",
+    "build": "cross-env NODE_ENV=production babel ./server -d dist/build/server",
+    "lint": "eslint ./pack",
+    "lint:fix": "eslint ./pack --fix",
+    "clean": "rimraf dist",
+    "clean:logs": "./pack/logs/*"
   },
   "author": "vdu",
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.5.5",
+    "cross-env": "^5.2.1",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
     "moment": "^2.23.0",
     "mongoose": "^5.3.12",
     "nodemon": "^1.19.1"
+  },
+  "devDependencies": {
+    "babel-cli": "~6.26.0",
+    "babel-core": "~6.26.0",
+    "babel-eslint": "10.0.1",
+    "babel-plugin-istanbul": "5.1.0",
+    "babel-preset-env": "~1.7.0",
+    "babel-preset-stage-0": "~6.24.1",
+    "babel-register": "~6.26.0",
+    "rimraf": "^3.0.0",
+    "eslint": "^6.3.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
   }
 }

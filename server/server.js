@@ -12,7 +12,7 @@ const dbUri = 'mongodb://localhost/Runnings';
 const timeoutConnectionConfig = 10000;
 let connectionDbState = 'Down';
 
-module.exports = connectionDbState;
+this.connectionDbState = connectionDbState;
 
 mongoose.Promise = Promise;
 
@@ -20,18 +20,18 @@ mongoose.Promise = Promise;
 var dbConnection = mongoose.connection;
 dbConnection.on('disconnected', function() {
     logger.info('MongoDB disconnected!');
-    connectionDbState = 'Down';
     setTimeout(() => connectToBdd(), timeoutConnectionConfig)
 });
 
 function connectToBdd() {
     mongoose.connect(dbUri)
         .then(() => {
-            connectionDbState = 'Up';
             logger.info(`Connected on port: ${port}`);
+            connectionDbState = 'Up';
         })
         .catch((err) => {
             logger.info(`Not connected: ${err.message}`);
+            connectionDbState = 'Down';
         })
 }
 
@@ -43,3 +43,15 @@ var routes = require('./api/routes/runningChallengeRoute');
 routes(app);
 
 app.listen(port);
+
+// write log in file
+var fs = require('fs');
+var util = require('util');
+var log_file = fs.createWriteStream('./server/logs' + '/debug.log', {flags : 'w'});
+
+var log_stdout = process.stdout;
+
+console.log = function(d) { //
+    log_file.write(util.format(d) + '\n');
+    log_stdout.write(util.format(d) + '\n');
+};
