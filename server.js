@@ -8,18 +8,34 @@ var express = require('express'),
     bodyParser = require('body-parser');
 
 
-//mongoose instance connection url connection
-mongoose.Promise = Promise;
-mongoose.connect('mongodb://localhost/Runnings')
-    .then(() => {
-        logger.info(`Connected on port: ${port}`);
-        Promise.resolve();
-    })
-    .catch((err) => {
-        logger.info('Not connected: ', err.message);
-        Promise.reject(console.log('Not connected: ', err.message));
-    })
+const dbUri = 'mongodb://localhost/Runnings';
+const timeoutConnectionConfig = 10000;
+let connectionDbState = 'Down';
 
+module.exports = connectionDbState;
+
+mongoose.Promise = Promise;
+
+// reconnection if failed
+var dbConnection = mongoose.connection;
+dbConnection.on('disconnected', function() {
+    logger.info('MongoDB disconnected!');
+    connectionDbState = 'Down';
+    setTimeout(() => connectToBdd(), timeoutConnectionConfig)
+});
+
+function connectToBdd() {
+    mongoose.connect(dbUri)
+        .then(() => {
+            connectionDbState = 'Up';
+            logger.info(`Connected on port: ${port}`);
+        })
+        .catch((err) => {
+            logger.info(`Not connected: ${err.message}`);
+        })
+}
+
+connectToBdd();
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 

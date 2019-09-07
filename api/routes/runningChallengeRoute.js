@@ -1,4 +1,6 @@
 'use strict';
+const connectionDbState = require('../../server');
+
 module.exports = function (app) {
     var running = require('../controllers/runningChallengeController')
 
@@ -9,4 +11,13 @@ module.exports = function (app) {
 
     app.route('/average_km_ran')
         .post(running.getAverageKmRanByDate);
+
+    //health check
+    app.route("/health")
+        .get(function (req, res) {
+            return res.json({
+                appStatus: 'UP',
+                dbStatus : connectionDbState,
+            });
+        });
 };
