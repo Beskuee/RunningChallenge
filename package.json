@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/server.js",
     "start:dev": "nodemon server/server.js",
-    "prod": "cross-env NODE_ENV=local-prod node dist/build/server/server.js",
+    "prod": "cross-env NODE_ENV=production node dist/build/server/server.js",
     "prebuild": "npm run clean",
     "postbuild": "copy package*.json dist/build && copy config.json dist/build && copy run.bat dist/build",
     "build": "cross-env NODE_ENV=production babel ./server -d dist/build/server",
@@ -24,7 +24,8 @@
     "lodash": "^4.17.15",
     "moment": "^2.23.0",
     "mongoose": "^5.3.12",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "babel-cli": "~6.26.0",

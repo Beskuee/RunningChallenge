@@ -1,17 +1,40 @@
-const Logger = function () {};
-const moment = require('moment')
-const date = moment().format("YYYY-MM-DDTHH:mm:ss.SSS")
+'use strict';
+const { createLogger, format, transports } = require('winston');
+const fs = require('fs');
+const path = require('path');
 
-Logger.prototype.info = function (logText) {
-    console.log(`[${date}][info]${logText}`);
-};
+const env = process.env.NODE_ENV || 'development';
+const logDir = 'logs';
 
-Logger.prototype.debug = function (logText) {
-    console.log(`[${date}][debug]${logText}`);
-};
+// Create the log directory if it does not exist
+if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir);
+}
 
-Logger.prototype.error = function (logText) {
-    console.log(`[${date}][error]${logText}`);
-};
+const filename = path.join(logDir, 'runningLogger.log');
 
-module.exports = new Logger();
+const logger = createLogger({
+    // change level if in dev environment versus production
+    level: env === 'development' ? 'debug' : 'info',
+    format: format.combine(
+        format.timestamp({
+            format: 'YYYY-MM-DDTHH:mm:ss.SSS'
+        }),
+        format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
+    ),
+    transports: [
+        // log pour la console
+        new transports.Console({
+            level: 'info',
+            format: format.combine(
+                format.colorize(),
+                format.printf(
+                    info => `${info.timestamp} ${info.level}: ${info.message}`
+                )
+            )
+        }),
+        new transports.File({ filename })
+    ]
+});
+
+module.exports = logger;

@@ -1,4 +1,5 @@
 const logger = require('./logger/logger');
+
 var express = require('express'),
     app = express(),
     Promise = require('bluebird'),
@@ -6,7 +7,6 @@ var express = require('express'),
     mongoose = require('mongoose'),
     Running = require('./api/models/runningChallengeModel'),
     bodyParser = require('body-parser');
-
 
 const dbUri = 'mongodb://localhost/Runnings';
 const timeoutConnectionConfig = 10000;
@@ -27,6 +27,7 @@ function connectToBdd() {
     mongoose.connect(dbUri)
         .then(() => {
             logger.info(`Connected on port: ${port}`);
+            logger.debug('***********Application en mode dev*************')
             connectionDbState = 'Up';
         })
         .catch((err) => {
@@ -44,14 +45,3 @@ routes(app);
 
 app.listen(port);
 
-// write log in file
-var fs = require('fs');
-var util = require('util');
-var log_file = fs.createWriteStream('./server/logs' + '/debug.log', {flags : 'w'});
-
-var log_stdout = process.stdout;
-
-console.log = function(d) { //
-    log_file.write(util.format(d) + '\n');
-    log_stdout.write(util.format(d) + '\n');
-};
