@@ -36,11 +36,36 @@ exports.createARunning = function (req, res) {
     ;
 };
 
+function _checkDateFormat(date) {
+    // YYYY-MM-DDTHH:MM:SS.sssZ
+    const FORMAT_DATE = 'YYYY-MM-DD';
+    const result = moment(date, FORMAT_DATE).isValid();
+
+    if(!result){
+        logger.error(`Format de date incorrecte, format requis : ${FORMAT_DATE}`);
+        throw (`Format de date incorrect, format requis : ${FORMAT_DATE}`);
+    }
+}
+
 // get average
 exports.getAverageKmRanByDate = function (req, res) {
     logger.info('getAverageKm');
-    const startDate = new Date(req.body.startDate);
-    const stopDate = new Date(req.body.stopDate);
+
+    if(!_.has(req, 'body') || _.isEmpty(req.body) || (!_.has(req.body, 'startDate') || !_.has(req.body, 'stopDate'))){
+        logger.error('Il manque la donnee startDate ou stopDate pour la requete');
+        throw (`Il manque la donnee startDate ou stopDate pour la requete`);
+    }
+
+    const startDate = moment(req.body.startDate).format('YYYY-MM-DD');
+    _checkDateFormat(startDate)
+
+    const stopDate = moment(req.body.stopDate).format('YYYY-MM-DD');
+    _checkDateFormat(stopDate)
+
+    if (moment(startDate).isAfter(stopDate)){
+        logger.error('starDate ne doit pas etre anterieur a stopDate');
+        throw ('starDate ne doit pas etre anterieur a stopDate');
+    }
 
     Running.find({$and: [{startDate: {'$gte': startDate}}, {stopDate: {'$lte': stopDate}}]})
         .then((running) => {
