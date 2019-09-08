@@ -29,11 +29,11 @@ function connectToBdd() {
         .then(() => {
             logger.info(`Connected on port: ${port}`);
             logger.debug('***********Application en mode dev*************')
-            connectionDbState = 'Up';
+            this.connectionDbState = 'Up';
         })
         .catch((err) => {
             logger.info(`Not connected: ${err.message}`);
-            connectionDbState = 'Down';
+            this.connectionDbState = 'Down';
         })
 }
 
