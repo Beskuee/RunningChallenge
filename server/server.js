@@ -1,20 +1,21 @@
 const logger = require('./logger/logger');
+const config = require('./config/config');
 
 var express = require('express'),
     app = express(),
-    Promise = require('bluebird'),
-    port = process.env.PORT || 3000,
+    port = config.app.port,
     mongoose = require('mongoose'),
     Running = require('./api/models/runningChallengeModel'),
     bodyParser = require('body-parser');
 
-const dbUri = 'mongodb://localhost/Runnings';
+const { db: { host, name } } = config;
+const connectionString = `mongodb://${host}/${name}`;
+const dbUri = connectionString;
+
 const timeoutConnectionConfig = 10000;
 let connectionDbState = 'Down';
 
 this.connectionDbState = connectionDbState;
-
-mongoose.Promise = Promise;
 
 // reconnection if failed
 var dbConnection = mongoose.connection;
