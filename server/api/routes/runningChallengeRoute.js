@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = function (app) {
-    var running = require('../controllers/runningChallengeController');
-    var health = require('../controllers/healthCheckController');
+    const running = require('../controllers/runningChallengeController');
+    const health = require('../controllers/healthCheckController');
 
 
     // running route

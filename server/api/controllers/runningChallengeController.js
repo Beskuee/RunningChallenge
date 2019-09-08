@@ -1,8 +1,9 @@
 'use strict';
 const _ = require('lodash');
 const logger = require('../../logger/logger');
+const moment = require('moment');
 
-var mongoose = require('mongoose'),
+let mongoose = require('mongoose'),
     Running = mongoose.model('Running');
 
 // findAll
@@ -10,7 +11,7 @@ exports.listAllRunnings = function (req, res) {
     logger.info('findAll');
     Running.find({})
         .then((running) => {
-            // utiliser unset
+            // todo use _.unset for format
             const dataTosend = _.map(running, (obj) => Running.format(obj));
             return res.status(200).json(dataTosend);
         })
@@ -22,11 +23,11 @@ exports.listAllRunnings = function (req, res) {
 
 // create
 exports.createARunning = function (req, res) {
-    logger.info('create: ', req.body.name);
+    logger.info(`create: ${req.body.name}`);
     let running = new Running(req.body);
     running.save()
         .then((running) => {
-            // utiliser unset pour éviter de creer un autre objet
+            // todo use _.unset for format
             return res.status(200).json(Running.format(running));
         })
         .catch((err) => {

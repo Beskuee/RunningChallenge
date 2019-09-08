@@ -1,9 +1,9 @@
 'use strict';
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var _ = require('lodash');
+const _ = require('lodash');
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
 
-var RunningSchema = new Schema({
+let RunningSchema = new Schema({
     name: {
         type: String,
         required: 'enter the name'
@@ -26,17 +26,17 @@ var RunningSchema = new Schema({
     }
 });
 
-var Running = module.exports = mongoose.model('Running', RunningSchema);
+module.exports = mongoose.model('Running', RunningSchema);
 
-module.exports.format = function _runningFormatter (running) {
-      // _.unset(running,
-      //   '__v',
-      //   '_id');
+module.exports.format = function _runningFormatter(running) {
+    // _.unset(running,
+    //   '__v',
+    //   '_id');
     return _.pick(running,
         'numberCaloriesBurnt',
         'numberKmRan',
         'name',
         'startDate',
         'stopDate')
-    ;
+        ;
 };

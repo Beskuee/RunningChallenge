@@ -1,14 +1,14 @@
 const logger = require('./logger/logger');
 const config = require('./config/config');
 
-var express = require('express'),
+let express = require('express'),
     app = express(),
     port = config.app.port,
     mongoose = require('mongoose'),
     Running = require('./api/models/runningChallengeModel'),
     bodyParser = require('body-parser');
 
-const { db: { host, name } } = config;
+const {db: {host, name}} = config;
 const connectionString = `mongodb://${host}/${name}`;
 const dbUri = connectionString;
 
@@ -19,7 +19,7 @@ this.connectionDbState = connectionDbState;
 
 // reconnection if failed
 var dbConnection = mongoose.connection;
-dbConnection.on('disconnected', function() {
+dbConnection.on('disconnected', function () {
     logger.info('MongoDB disconnected!');
     setTimeout(() => connectToBdd(), timeoutConnectionConfig)
 });

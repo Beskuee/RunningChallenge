@@ -4,17 +4,17 @@
   "description": "running challenge theodo",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test mocha ./**/*.spec.js",
+    "test": "cross-env NODE_ENV=test mocha ./server/**/*.spec.js",
     "start": "cross-env NODE_ENV=production node server/server.js",
-    "start:dev": "cross-env NODE_ENV=dev nodemon server/server.js",
+    "dev": "cross-env NODE_ENV=dev nodemon server/server.js",
     "prod": "cross-env NODE_ENV=production node dist/build/server/server.js",
     "prebuild": "npm run clean",
     "postbuild": "copy package*.json dist/build && copy run.bat dist/build",
     "build": "cross-env NODE_ENV=production babel ./server -d dist/build/server",
-    "lint": "eslint ./pack",
-    "lint:fix": "eslint ./pack --fix",
+    "lint": "eslint ./server",
+    "lint:fix": "eslint ./server --fix",
     "clean": "rimraf dist",
-    "clean:logs": "./pack/logs/*"
+    "clean:logs": "rimraf ./logs/*"
   },
   "author": "vdu",
   "license": "ISC",
