@@ -1,11 +1,9 @@
 'use strict';
 const _ = require('lodash');
-const Run = require('../models/runModel');
 const logger = require('../../logger/logger');
 
 var mongoose = require('mongoose'),
     Running = mongoose.model('Running');
-
 
 // findAll
 exports.listAllRunnings = function (req, res) {
@@ -13,7 +11,7 @@ exports.listAllRunnings = function (req, res) {
     Running.find({})
         .then((running) => {
             // utiliser unset
-            const dataTosend = _.map(running, (obj) => new Run(obj));
+            const dataTosend = _.map(running, (obj) => Running.format(obj));
             return res.status(200).json(dataTosend);
         })
         .catch((err) => {
@@ -29,7 +27,7 @@ exports.createARunning = function (req, res) {
     running.save()
         .then((running) => {
             // utiliser unset pour éviter de creer un autre objet
-            return res.status(200).json(new Run(running));
+            return res.status(200).json(Running.format(running));
         })
         .catch((err) => {
             return res.status(400).send(err.message);

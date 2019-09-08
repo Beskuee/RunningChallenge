@@ -1,12 +1,7 @@
 'use strict';
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-
-// module.exports = function _runningFormatter (running) {
-//      _.unset(running,
-//         '__v',
-//         '_id');
-// }
+var _ = require('lodash');
 
 var RunningSchema = new Schema({
     name: {
@@ -31,4 +26,17 @@ var RunningSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Running', RunningSchema);
+var Running = module.exports = mongoose.model('Running', RunningSchema);
+
+module.exports.format = function _runningFormatter (running) {
+      // _.unset(running,
+      //   '__v',
+      //   '_id');
+    return _.pick(running,
+        'numberCaloriesBurnt',
+        'numberKmRan',
+        'name',
+        'startDate',
+        'stopDate')
+    ;
+};
