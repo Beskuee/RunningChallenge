@@ -28,7 +28,6 @@ URI available:
  http://localhost:3000/runnings
  method : Post
  exemple of body request: {
-                                "name":"blop",
                                 "numberCaloriesBurnt":1000,
                                 "numberKmRan":800,
                                 "startDate": "2019-09-06",

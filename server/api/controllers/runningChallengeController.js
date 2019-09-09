@@ -50,13 +50,14 @@ function _checkDateIntegrity(req) {
 
 // create
 exports.createARunning = function (req, res) {
-    logger.info(`create: ${req.body.name}`);
 
     _checkDateIntegrity(req);
 
     let running = new Running(req.body);
     running.save()
         .then((running) => {
+            logger.info(`create: ${running._id}`);
+
             // todo use _.unset for format
             return res.status(200).json(Running.format(running));
         })

@@ -4,10 +4,6 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let RunningSchema = new Schema({
-    name: {
-        type: String,
-        required: 'enter the name'
-    },
     startDate: {
         type: Date,
         default: Date.now
@@ -33,10 +29,10 @@ module.exports.format = function _runningFormatter(running) {
     //   '__v',
     //   '_id');
     return _.pick(running,
+        '_id',
         'numberCaloriesBurnt',
         'numberKmRan',
-        'name',
         'startDate',
         'stopDate')
-        ;
+    ;
 };
