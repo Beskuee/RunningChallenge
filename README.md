@@ -9,6 +9,7 @@ requirements:
 ***************************************************************************************
 For developpers:
 -install node dependencies with command: >npm install
+-./server/config/config.js allow you to set your own config depending on the environment
 -run mongoDB (on port 27017) in a terminal with command: >mongod
 
 choose the script of interest:
