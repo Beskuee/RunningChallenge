@@ -51,7 +51,12 @@ function _checkDateIntegrity(req) {
 // create
 exports.createARunning = function (req, res) {
 
-    _checkDateIntegrity(req);
+    try {
+        _checkDateIntegrity(req);
+    } catch (e) {
+        //to do manage error in middleware
+        return res.status(400).send(e);
+    }
 
     let running = new Running(req.body);
     running.save()
@@ -62,6 +67,7 @@ exports.createARunning = function (req, res) {
             return res.status(200).json(Running.format(running));
         })
         .catch((err) => {
+            //todo manage error in middleware
             return res.status(400).send(err.message);
         })
     ;
@@ -76,7 +82,12 @@ exports.getAverageKmRanByDate = function (req, res) {
         throw (`Il manque la donnee startDate ou stopDate pour la requete`);
     }
 
-    _checkDateIntegrity(req)
+    try {
+        _checkDateIntegrity(req);
+    } catch (e) {
+        //to do manage error in middleware
+        return res.status(400).send(e);
+    }
 
     const startDate = moment(req.body.startDate).format('YYYY-MM-DD');
     const stopDate = moment(req.body.stopDate).format('YYYY-MM-DD');
