@@ -22,7 +22,7 @@ let RunningSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Running', RunningSchema);
+module.exports = mongoose.model('Running', RunningSchema, 'appRunning');
 
 module.exports.format = function _runningFormatter(running) {
     // _.unset(running,

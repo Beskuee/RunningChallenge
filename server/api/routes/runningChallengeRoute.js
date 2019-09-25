@@ -16,4 +16,13 @@ module.exports = function (app) {
     // health check
     app.route("/health")
         .get(health.getHealth);
+
+    // fusion controller and route?
+    app.route('/health2')
+        .get(function (req, res) {
+            console.log('balblabla')
+            return res.status(200).send('blop')
+        })
 };
+
+

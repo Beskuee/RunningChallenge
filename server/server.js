@@ -6,6 +6,7 @@ let express = require('express'),
     port = config.app.port,
     mongoose = require('mongoose'),
     Running = require('./api/models/runningChallengeModel'),
+    Users = require('./api/models/userModel'),
     bodyParser = require('body-parser');
 
 const {db: {host, name}} = config;
@@ -42,7 +43,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 var routes = require('./api/routes/runningChallengeRoute');
+var routesUsers = require('./api/routes/userRoute')
 routes(app);
+routesUsers(app);
 
 app.listen(port);
 
