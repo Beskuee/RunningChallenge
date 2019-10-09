@@ -1,4 +1,4 @@
-let mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
     User = mongoose.model('Users');
 const crypto = require('crypto');
 
@@ -22,6 +22,23 @@ createUser = (userData) => {
     const user = new User(userData);
     return user.save();
 };
+
+exports.getById = (req, res) => {
+    findById(req.params.userId).then((result) => {
+        res.status(200).send(result);
+    });
+}
+
+findById = (id) => {
+    console.log('-----id', id);
+    return User.findById(id).then((result) => {
+        result = result.toJSON();
+        delete result._id;
+        delete result.__v;
+        return result;
+    });
+};
+
 
 
 // exports.getHealthAfterAuthChecked = function (res, req) {

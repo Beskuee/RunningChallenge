@@ -7,6 +7,9 @@ module.exports = function (app) {
     app.route('/users')
         .post(user.insert);
 
+    app.route('/users/:userId')
+        .get(user.getById);
+
     // // mettre à true ou false quand c'est checked
     // app.route('user/checkAuth')
     //     .get(user.checkAuth);
