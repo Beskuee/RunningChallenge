@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // todo creer un nouveau module pour l'authen
-let UserSchema = new Schema({
+const UserSchema = new Schema({
     firstName: String,
     lastName: String,
     email: String,

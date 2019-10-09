@@ -3,7 +3,7 @@ const _ = require('lodash');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let RunningSchema = new Schema({
+const RunningSchema = new Schema({
     startDate: {
         type: Date,
         default: Date.now
