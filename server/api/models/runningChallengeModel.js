@@ -1,7 +1,7 @@
 'use strict';
 const _ = require('lodash');
-let mongoose = require('mongoose');
-let Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 let RunningSchema = new Schema({
     startDate: {

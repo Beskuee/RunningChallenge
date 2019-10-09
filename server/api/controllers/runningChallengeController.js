@@ -3,7 +3,7 @@ const _ = require('lodash');
 const logger = require('../../logger/logger');
 const moment = require('moment');
 
-let mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
     Running = mongoose.model('Running');
 
 // findAll

@@ -1,9 +1,9 @@
-let Running = require('../models/runningChallengeModel'); //imports the Pokemon model.
+const Running = require('../models/runningChallengeModel');
 const chai = require('chai');
 const expect = chai.expect;
 const _ = require('lodash');
 
-const controller = require('../controllers/runningChallengeController'); //imports the Pokemon model.
+const controller = require('../controllers/runningChallengeController');
 
 describe('::getAverageKmRanByDate', () => {
     it('should be a function', () => {
