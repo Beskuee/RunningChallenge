@@ -64,6 +64,11 @@ exports.createARunning = function (req, res) {
             logger.info(`create: ${running._id}`);
 
             // todo use _.unset for format
+            // autre methode
+            // running = running.toJSON();
+            // delete running.__v;
+            // return res.status(200).json(running);
+
             return res.status(200).json(Running.format(running));
         })
         .catch((err) => {
