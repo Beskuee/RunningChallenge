@@ -19,6 +19,7 @@
   "author": "vdu",
   "license": "ISC",
   "dependencies": {
+    "jwt-secret": "~1.1.1",
     "cross-env": "^5.2.1",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
