@@ -21,7 +21,7 @@
   "dependencies": {
     "cross-env": "^5.2.1",
     "express": "^4.17.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.23.0",
     "mongoose": "^5.3.12",
     "nodemon": "^1.19.1",
